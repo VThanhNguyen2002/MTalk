@@ -1,0 +1,40 @@
+# Built-in OS and IDE files
+.DS_Store
+Thumbs.db
+*.swp
+*.bak
+*~
+
+# Android / Gradle build outputs
+.gradle/
+build/
+*/build/
+app/build/
+*.apk
+*.aab
+
+# Local environment & secrets configuration
+local.properties
+.env
+.env.*
+!.env.example
+
+# Keystores & signing credentials
+*.jks
+*.keystore
+*.p12
+
+# Android Studio / IntelliJ IDEA project files
+.idea/
+*.iml
+.navigation/
+
+# Diagnostic & runtime logs
+*.log
+
+# Audio captures & diagnostic dumps (except test fixtures)
+/recordings/
+*.pcm
+*.wav
+!src/test/resources/**/*.wav
+!src/androidTest/resources/**/*.wav
