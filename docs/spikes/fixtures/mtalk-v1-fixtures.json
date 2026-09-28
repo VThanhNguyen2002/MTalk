@@ -184,7 +184,7 @@
       "operational_action_or_meaning": "Driver checks mirrors and safely maneuvers to curbside to stop",
       "scenario": "Urgent curbside stop request",
       "criticality": "critical",
-      "notes": "Urgent vehicle maneuver instruction. Must be translated without hesitation or distortion."
+      "notes": "Robustness/evaluation fixture only. The source utterance describes an urgent stop request a passenger might produce. Evaluation of this fixture is performed exclusively in a safe stationary test context. This fixture does NOT establish or validate in-motion MTalk interaction; MTalk is intended for use during safely stationary vehicle moments only. The fixture exists to verify that the translation pipeline handles urgent directional language without distortion."
     },
     {
       "fixture_id": "MTALK-EN-VI-002",

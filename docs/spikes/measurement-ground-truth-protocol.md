@@ -46,15 +46,16 @@ Every test fixture must possess a deterministic, stable identifier to enable rep
 
 | Field | Type | Description | Example |
 | :--- | :--- | :--- | :--- |
-| `fixture_id` | String | Unique permanent identifier (`FIX-[DOMAIN]-[SEQ]`) | `FIX-PAY-001` |
+| `fixture_id` | String | Unique permanent identifier (`MTALK-[SRC]-[TGT]-[SEQ]`) | `MTALK-VI-EN-001` |
 | `fixture_version` | String | Semantic version of fixture text/definition | `1.0.0` |
-| `fixture_hash` | String | SHA-256 hash of normalized fixture text or raw audio | `e3b0c44...` |
+| `source_hash_sha256` | String | SHA-256 hash of `source_utterance` UTF-8 bytes | `d1fe9f...` |
 | `source_type` | Enum | `driver_authored`, `synthetic`, `consented_simulation` | `driver_authored` |
-| `language` | String | BCP-47 language tag | `vi-VN` |
-| `dialect_accent` | String | Regional dialect or accent characteristics if known | `vi-Southern` |
-| `scenario` | String | Target operational context | `Curbside fare settlement` |
-| `expected_meaning`| String | Core operational intent / ground-truth semantics | `Driver asks cash or transfer` |
-| `criticality` | Enum | `critical_operational`, `standard_operational`, `conversational` | `critical_operational` |
+| `source_language` | String | BCP-47 source language tag | `vi-VN` |
+| `target_language` | String | BCP-47 target language tag | `en-US` |
+| `dialect_accent` | String | **Audio stage only.** Regional dialect/accent of the actual recorded speaker. Not required for text-only fixtures; must be declared when an audio recording is created against this fixture. | `vi-Southern` |
+| `scenario` | String | Target operational context | `Fare payment method` |
+| `intended_meaning` | String | Core operational intent / ground-truth semantics | `Driver asks cash or transfer` |
+| `criticality` | Enum | `critical`, `operational`, `normal` (see Section 5) | `critical` |
 
 ---
 
@@ -74,8 +75,8 @@ Evaluation requires distinguishing between surface wording and semantic operatio
                             └──> [ Expected TTS Text ]        (Synthesizer input string)
 ```
 
-1. **Source Utterance**: The exact spoken phrase or prompt provided to the speaker.
-2. **Expected Transcription**: The authoritative orthographic text representation of the source utterance, including standard punctuation and accent marks.
+1. **Source Utterance**: The exact text prompt provided to the speaker, or the authoritative written form of the utterance.
+2. **Expected Transcription**: The authoritative orthographic text representation of the source utterance, including standard punctuation and accent marks. *For text-only fixtures where no audio recording exists, `source_utterance` serves as the provisional expected transcription. `expected_transcription` becomes an explicit, separate field in the fixture record when an audio recording is created and the recorded speaker's natural delivery may differ from the written source text. Any such difference requires a fixture version increment.*
 3. **Intended Meaning**: The underlying operational intent independent of phrasing (e.g., "confirm drop-off location").
 4. **Expected Translation**: Authoritative target-language text translation preserving operational intent.
 5. **Expected Operational Action**: The required real-world physical or verbal response from the receiver (e.g., passenger shows QR code, driver confirms stop).
@@ -90,9 +91,9 @@ Evaluation requires distinguishing between surface wording and semantic operatio
 Not all utterances have equal failure costs. Errors in pleasantries are inconvenient; errors in payment amounts or safety instructions can create disputes or safety hazards.
 
 ### Classification:
-- **Critical Operational**: Utterances where misunderstanding directly impacts payment, destination, safety, or legal compliance (e.g., *"50 nghìn đồng"*, *"Rẽ phải ở ngã tư"*, *"Bạn thanh toán tiền mặt hay chuyển khoản?"*).
-- **Standard Operational**: Utterances coordinating ride flow (e.g., *"Tôi đợi ở sảnh B"*, *"Bị kẹt xe khoảng 5 phút"*).
-- **Conversational**: Non-critical courtesy phrases (e.g., *"Chào bạn"*, *"Cảm ơn bạn"*).
+- **`critical`**: Utterances where misunderstanding directly impacts payment, destination, safety, or legal compliance (e.g., *"50 nghìn đồng"*, *"Rẽ phải ở ngã tư"*, *"Bạn thanh toán tiền mặt hay chuyển khoản?"*). Individual pass/fail tracking required for every critical-term within the utterance.
+- **`operational`**: Utterances coordinating normal ride flow where errors disrupt coordination but do not constitute safety, payment, or destination failures (e.g., *"Tôi đợi ở sảnh B"*, *"Bị kẹt xe khoảng 5 phút"*).
+- **`normal`**: Conversational, courtesy, or non-operational phrases (e.g., *"Chào bạn"*, *"Cảm ơn bạn"*). Errors are inconvenient but do not affect the trip outcome.
 
 ### Evaluation Rule for Critical Phrases:
 - **Aggregate metrics are insufficient**: An aggregate Word Error Rate (WER) of 5% or BLEU score of 40 does not establish system readiness if critical operational phrases fail.
