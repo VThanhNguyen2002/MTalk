@@ -3,7 +3,7 @@
 [![Android](https://img.shields.io/badge/Platform-Android_10%2B_(API_29%2B)-3DDC84.svg?style=flat&logo=android)](https://developer.android.com)
 [![Kotlin](https://img.shields.io/badge/Language-Kotlin-7F52FF.svg?style=flat&logo=kotlin)](https://kotlinlang.org)
 [![Compose](https://img.shields.io/badge/UI-Jetpack_Compose-4285F4.svg?style=flat&logo=jetpackcompose)](https://developer.android.com/jetpack/compose)
-[![Status](https://img.shields.io/badge/Status-Foundation_Phase-orange.svg)]()
+[![Status](https://img.shields.io/badge/Status-Scaffold_Phase_1-blue.svg)]()
 
 > **A real-world, high-discipline voice translation application engineered specifically for taxi and delivery drivers communicating with foreign passengers and customers.**
 
@@ -92,10 +92,14 @@ Implementation of application features has **not** started. In accordance with d
 
 ## Engineering Environment & Prerequisites
 
-- **Development OS**: Ubuntu Linux (VMware virtualized development environment)
-- **JDK Version**: Java 17 (Temurin recommended)
-- **Android SDK**: Android API 29+ compatibility, command-line tools / Android Studio
-- **Build System**: Gradle with Kotlin DSL (`build.gradle.kts`)
+- **Development OS**: Ubuntu Linux 22.04 LTS (x86_64)
+- **JDK Version**: Java 17 (Eclipse Adoptium Temurin 17.0.20.1+1)
+- **Android SDK**: API 36 (`compileSdk`/`targetSdk`), `minSdk 29`, build-tools 36.0.0, platform-tools 37.0.1
+- **Build System**: Gradle 9.6.0 (wrapper) with Kotlin DSL (`build.gradle.kts`)
+- **Android Gradle Plugin**: 9.4.0 (with built-in Kotlin support)
+- **Kotlin**: 2.4.20
+- **Jetpack Compose BOM**: 2026.04.01
+- **Package / Namespace**: `com.vthanh.mtalk`
 
 ---
 
